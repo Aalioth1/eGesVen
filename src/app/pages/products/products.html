@@ -1,1 +1,113 @@
-<p>products works!</p>
+<section class="products-page">
+  <div class="page-header">
+    <div>
+      <h1>Gestión de productos</h1>
+      <p>Administra los productos disponibles en eGesVen.</p>
+    </div>
+
+    <button mat-flat-button type="button">
+      <mat-icon>add</mat-icon>
+      Nuevo producto
+    </button>
+  </div>
+
+  <mat-card>
+    <mat-card-content>
+      <div class="table-toolbar">
+        <mat-form-field appearance="outline">
+          <mat-label>Buscar producto</mat-label>
+
+          <input
+            matInput
+            type="text"
+            [(ngModel)]="searchTerm"
+            (input)="filterProducts()"
+            placeholder="Código, nombre o categoría"
+          />
+
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="table-container">
+        <table
+          mat-table
+          [dataSource]="filteredProducts"
+          class="products-table"
+        >
+          <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef>Código</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.code }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.name }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef>Categoría</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.category }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="price">
+            <th mat-header-cell *matHeaderCellDef>Precio</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.price | currency:'CLP':'symbol-narrow':'1.0-0' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="stock">
+            <th mat-header-cell *matHeaderCellDef>Stock</th>
+            <td mat-cell *matCellDef="let product">
+              {{ product.stock }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let product">
+              <button
+                mat-icon-button
+                type="button"
+                aria-label="Editar producto"
+                (click)="editProduct(product)"
+              >
+                <mat-icon>edit</mat-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                type="button"
+                aria-label="Eliminar producto"
+                (click)="deleteProduct(product)"
+              >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+          ></tr>
+        </table>
+
+        @if (filteredProducts.length === 0) {
+          <div class="empty-state">
+            <mat-icon>inventory_2</mat-icon>
+            <p>No se encontraron productos.</p>
+          </div>
+        }
+      </div>
+    </mat-card-content>
+  </mat-card>
+</section>

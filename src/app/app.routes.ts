@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 
+import { MainLayout } from './layout/main-layout/main-layout';
 import { Login } from './pages/login/login';
 import { Dashboard } from './pages/dashboard/dashboard';
 import { Catalog } from './pages/catalog/catalog';
@@ -18,24 +19,30 @@ export const routes: Routes = [
     component: Login,
   },
   {
-    path: 'dashboard',
-    component: Dashboard,
-  },
-  {
-    path: 'catalog',
-    component: Catalog,
-  },
-  {
-    path: 'products',
-    component: Products,
-  },
-  {
-    path: 'cart',
-    component: Cart,
-  },
-  {
-    path: 'payment',
-    component: Payment,
+    path: '',
+    component: MainLayout,
+    children: [
+      {
+        path: 'dashboard',
+        component: Dashboard,
+      },
+      {
+        path: 'catalog',
+        component: Catalog,
+      },
+      {
+        path: 'products',
+        component: Products,
+      },
+      {
+        path: 'cart',
+        component: Cart,
+      },
+      {
+        path: 'payment',
+        component: Payment,
+      },
+    ],
   },
   {
     path: '**',

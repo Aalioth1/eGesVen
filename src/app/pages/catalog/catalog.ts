@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product';
+import { CartService } from '../../services/cart';
 
 @Component({
   selector: 'app-catalog',
@@ -31,7 +32,9 @@ export class Catalog implements OnInit {
   searchTerm = '';
   notificationMessage = '';
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -61,6 +64,28 @@ export class Catalog implements OnInit {
   }
 
   addToCart(product: Product): void {
+    const currentItems = this.cartService.getItems();
+
+    const existingItem = currentItems.find(
+      (item) => item.product.id === product.id,
+    );
+
+    if (
+      existingItem &&
+      existingItem.quantity >= product.stock
+    ) {
+      this.notificationMessage =
+        `No hay más unidades disponibles de ${product.name}.`;
+
+      window.setTimeout(() => {
+        this.notificationMessage = '';
+      }, 2500);
+
+      return;
+    }
+
+    this.cartService.addProduct(product);
+
     this.notificationMessage =
       `${product.name} fue agregado al pedido.`;
 

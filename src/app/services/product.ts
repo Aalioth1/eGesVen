@@ -6,7 +6,9 @@ import { Product } from '../models/product';
   providedIn: 'root',
 })
 export class ProductService {
-  private products: Product[] = [
+  private readonly storageKey = 'egesven_products';
+
+  private readonly defaultProducts: Product[] = [
     {
       id: 1,
       code: 'P001',
@@ -49,12 +51,20 @@ export class ProductService {
     },
   ];
 
+  private products: Product[] = [];
+
+  constructor() {
+    this.loadProducts();
+  }
+
   getProducts(): Product[] {
-    return [...this.products];
+    return this.products.map((product) => ({ ...product }));
   }
 
   getProductById(id: number): Product | undefined {
-    return this.products.find((product) => product.id === id);
+    const product = this.products.find((item) => item.id === id);
+
+    return product ? { ...product } : undefined;
   }
 
   addProduct(product: Omit<Product, 'id'>): void {
@@ -64,6 +74,7 @@ export class ProductService {
     };
 
     this.products.push(newProduct);
+    this.saveProducts();
   }
 
   updateProduct(updatedProduct: Product): void {
@@ -76,11 +87,51 @@ export class ProductService {
     }
 
     this.products[index] = { ...updatedProduct };
+    this.saveProducts();
   }
 
   deleteProduct(id: number): void {
     this.products = this.products.filter(
       (product) => product.id !== id,
+    );
+
+    this.saveProducts();
+  }
+
+  resetProducts(): void {
+    this.products = this.defaultProducts.map(
+      (product) => ({ ...product }),
+    );
+
+    this.saveProducts();
+  }
+
+  private loadProducts(): void {
+    const storedProducts = localStorage.getItem(this.storageKey);
+
+    if (!storedProducts) {
+      this.resetProducts();
+      return;
+    }
+
+    try {
+      const parsedProducts = JSON.parse(storedProducts) as Product[];
+
+      if (!Array.isArray(parsedProducts)) {
+        this.resetProducts();
+        return;
+      }
+
+      this.products = parsedProducts;
+    } catch {
+      this.resetProducts();
+    }
+  }
+
+  private saveProducts(): void {
+    localStorage.setItem(
+      this.storageKey,
+      JSON.stringify(this.products),
     );
   }
 
@@ -89,10 +140,8 @@ export class ProductService {
       return 1;
     }
 
-    const highestId = Math.max(
+    return Math.max(
       ...this.products.map((product) => product.id),
-    );
-
-    return highestId + 1;
+    ) + 1;
   }
 }

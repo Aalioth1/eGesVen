@@ -1,0 +1,155 @@
+.catalog-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.page-header p {
+  margin: 8px 0 0;
+  color: #666;
+}
+
+.catalog-summary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #555;
+  font-weight: 500;
+}
+
+.search-card mat-card-content {
+  padding-bottom: 0;
+}
+
+.search-card mat-form-field {
+  width: 100%;
+  max-width: 520px;
+}
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 18px;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  background: #e8f5e9;
+  color: #1b5e20;
+}
+
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.product-image {
+  min-height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #eef2f6;
+}
+
+.product-image mat-icon {
+  width: 72px;
+  height: 72px;
+  color: #607d8b;
+  font-size: 72px;
+}
+
+.product-card mat-card-header {
+  padding-top: 20px;
+}
+
+.product-card mat-card-content {
+  flex: 1;
+}
+
+.product-price {
+  margin: 22px 0 16px;
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.product-stock {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #2e7d32;
+}
+
+.product-stock mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.product-stock.low-stock {
+  color: #c62828;
+  font-weight: 600;
+}
+
+.product-card mat-card-actions {
+  padding: 0 16px 16px;
+}
+
+.product-card mat-card-actions button {
+  width: 100%;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  width: 64px;
+  height: 64px;
+  font-size: 64px;
+}
+
+.empty-state h2 {
+  margin: 16px 0 8px;
+}
+
+.empty-state p {
+  margin: 0;
+}
+
+@media (max-width: 700px) {
+  .page-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .search-card mat-form-field {
+    max-width: none;
+  }
+}

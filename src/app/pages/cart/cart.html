@@ -1,1 +1,144 @@
-<p>cart works!</p>
+<section class="cart-page">
+  <div class="page-header">
+    <div>
+      <h1>Pedido actual</h1>
+      <p>Revisa los productos antes de continuar al pago.</p>
+    </div>
+
+    @if (items.length > 0) {
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="clearCart()"
+      >
+        <mat-icon>delete_sweep</mat-icon>
+        Vaciar pedido
+      </button>
+    }
+  </div>
+
+  @if (items.length > 0) {
+    <div class="cart-layout">
+      <div class="items-list">
+        @for (item of items; track item.product.id) {
+          <mat-card class="cart-item">
+            <mat-card-content>
+              <div class="item-information">
+                <div class="product-icon">
+                  <mat-icon>inventory_2</mat-icon>
+                </div>
+
+                <div>
+                  <h2>{{ item.product.name }}</h2>
+
+                  <p>
+                    {{ item.product.code }} ·
+                    {{ item.product.category }}
+                  </p>
+
+                  <span class="unit-price">
+                    {{ item.product.price
+                      | currency:'CLP':'symbol-narrow':'1.0-0' }}
+                    por unidad
+                  </span>
+                </div>
+              </div>
+
+              <div class="quantity-controls">
+                <button
+                  mat-icon-button
+                  type="button"
+                  aria-label="Disminuir cantidad"
+                  (click)="decreaseQuantity(item.product.id)"
+                >
+                  <mat-icon>remove</mat-icon>
+                </button>
+
+                <span>{{ item.quantity }}</span>
+
+                <button
+                  mat-icon-button
+                  type="button"
+                  aria-label="Aumentar cantidad"
+                  [disabled]="item.quantity >= item.product.stock"
+                  (click)="increaseQuantity(item.product.id)"
+                >
+                  <mat-icon>add</mat-icon>
+                </button>
+              </div>
+
+              <div class="item-total">
+                <strong>
+                  {{ item.product.price * item.quantity
+                    | currency:'CLP':'symbol-narrow':'1.0-0' }}
+                </strong>
+
+                <button
+                  mat-icon-button
+                  type="button"
+                  aria-label="Eliminar producto"
+                  (click)="removeItem(item.product.id)"
+                >
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        }
+      </div>
+
+      <mat-card class="summary-card">
+        <mat-card-header>
+          <mat-card-title>Resumen del pedido</mat-card-title>
+        </mat-card-header>
+
+        <mat-card-content>
+          <div class="summary-row">
+            <span>Productos</span>
+            <span>{{ totalItems }}</span>
+          </div>
+
+          <div class="summary-row total-row">
+            <span>Total</span>
+
+            <strong>
+              {{ subtotal
+                | currency:'CLP':'symbol-narrow':'1.0-0' }}
+            </strong>
+          </div>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-flat-button
+            type="button"
+            (click)="goToPayment()"
+          >
+            Continuar al pago
+            <mat-icon>arrow_forward</mat-icon>
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  } @else {
+    <mat-card class="empty-cart">
+      <mat-card-content>
+        <mat-icon>shopping_cart</mat-icon>
+        <h2>Tu pedido está vacío</h2>
+
+        <p>
+          Agrega productos desde el catálogo para comenzar una compra.
+        </p>
+
+        <button
+          mat-flat-button
+          type="button"
+          (click)="goToCatalog()"
+        >
+          <mat-icon>storefront</mat-icon>
+          Ir al catálogo
+        </button>
+      </mat-card-content>
+    </mat-card>
+  }
+</section>

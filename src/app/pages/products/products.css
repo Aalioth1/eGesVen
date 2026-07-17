@@ -64,6 +64,12 @@ th {
   margin: 12px 0 0;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 @media (max-width: 700px) {
   .page-header {
     align-items: stretch;
@@ -77,4 +83,13 @@ th {
   .table-toolbar mat-form-field {
     max-width: none;
   }
+
+    .header-actions {
+    flex-direction: column;
+  }
+
+  .header-actions button {
+    width: 100%;
+  }
 }
+

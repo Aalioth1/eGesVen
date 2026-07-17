@@ -1,1 +1,178 @@
-<p>dashboard works!</p>
+<section class="dashboard-page">
+  <div class="page-header">
+    <div>
+      <h1>Panel principal</h1>
+
+      <p>
+        Resumen general de productos, inventario y pedido actual.
+      </p>
+    </div>
+
+    <button
+      mat-flat-button
+      type="button"
+      (click)="goToCatalog()"
+    >
+      <mat-icon>storefront</mat-icon>
+      Ir al catálogo
+    </button>
+  </div>
+
+  <div class="statistics-grid">
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon">
+          <mat-icon>inventory_2</mat-icon>
+        </div>
+
+        <div>
+          <span>Productos registrados</span>
+          <strong>{{ totalProducts }}</strong>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon warning">
+          <mat-icon>warning</mat-icon>
+        </div>
+
+        <div>
+          <span>Productos con stock bajo</span>
+          <strong>{{ lowStockProducts }}</strong>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon danger">
+          <mat-icon>remove_shopping_cart</mat-icon>
+        </div>
+
+        <div>
+          <span>Productos sin stock</span>
+          <strong>{{ outOfStockProducts }}</strong>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="stat-card">
+      <mat-card-content>
+        <div class="stat-icon success">
+          <mat-icon>paid</mat-icon>
+        </div>
+
+        <div>
+          <span>Valor del inventario</span>
+
+          <strong>
+            {{ inventoryValue
+              | currency:'CLP':'symbol-narrow':'1.0-0' }}
+          </strong>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="dashboard-content">
+    <mat-card class="stock-card">
+      <mat-card-header>
+        <mat-card-title>Alertas de inventario</mat-card-title>
+
+        <mat-card-subtitle>
+          Productos con cinco unidades o menos.
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        @for (
+          product of getLowStockProducts();
+          track product.id
+        ) {
+          <div class="stock-item">
+            <div>
+              <strong>{{ product.name }}</strong>
+
+              <span>
+                {{ product.code }} · {{ product.category }}
+              </span>
+            </div>
+
+            <div
+              class="stock-badge"
+              [class.out-of-stock]="product.stock === 0"
+            >
+              {{
+                product.stock === 0
+                  ? 'Sin stock'
+                  : product.stock + ' unidades'
+              }}
+            </div>
+          </div>
+        } @empty {
+          <div class="empty-alerts">
+            <mat-icon>check_circle</mat-icon>
+            <p>No existen productos con stock bajo.</p>
+          </div>
+        }
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          mat-stroked-button
+          type="button"
+          (click)="goToProducts()"
+        >
+          Administrar productos
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="cart-card">
+      <mat-card-header>
+        <mat-card-title>Pedido actual</mat-card-title>
+
+        <mat-card-subtitle>
+          Resumen del carrito activo.
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="cart-summary">
+          <div class="cart-icon">
+            <mat-icon>shopping_cart</mat-icon>
+          </div>
+
+          <div>
+            <span>Productos agregados</span>
+            <strong>{{ cartItems }}</strong>
+          </div>
+        </div>
+
+        <div class="cart-total">
+          <span>Subtotal actual</span>
+
+          <strong>
+            {{ cartSubtotal
+              | currency:'CLP':'symbol-narrow':'1.0-0' }}
+          </strong>
+        </div>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button
+          mat-flat-button
+          type="button"
+          [disabled]="cartItems === 0"
+          (click)="goToCart()"
+        >
+          Revisar pedido
+          <mat-icon>arrow_forward</mat-icon>
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</section>

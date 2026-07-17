@@ -1,1 +1,96 @@
-<p>catalog works!</p>
+<section class="catalog-page">
+  <div class="page-header">
+    <div>
+      <h1>Catálogo de productos</h1>
+      <p>Consulta los productos disponibles en eGesVen.</p>
+    </div>
+
+    <div class="catalog-summary">
+      <mat-icon>inventory_2</mat-icon>
+
+      <span>
+        {{ filteredProducts.length }}
+        {{ filteredProducts.length === 1 ? 'producto' : 'productos' }}
+      </span>
+    </div>
+  </div>
+
+  <mat-card class="search-card">
+    <mat-card-content>
+      <mat-form-field appearance="outline">
+        <mat-label>Buscar en el catálogo</mat-label>
+
+        <input
+          matInput
+          type="text"
+          [(ngModel)]="searchTerm"
+          (input)="filterProducts()"
+          placeholder="Código, nombre o categoría"
+        />
+
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </mat-card-content>
+  </mat-card>
+
+  @if (notificationMessage) {
+    <div class="notification" role="status">
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ notificationMessage }}</span>
+    </div>
+  }
+
+  <div class="products-grid">
+    @for (product of filteredProducts; track product.id) {
+      <mat-card class="product-card">
+        <div class="product-image">
+          <mat-icon>inventory_2</mat-icon>
+        </div>
+
+        <mat-card-header>
+          <mat-card-title>{{ product.name }}</mat-card-title>
+
+          <mat-card-subtitle>
+            {{ product.code }} · {{ product.category }}
+          </mat-card-subtitle>
+        </mat-card-header>
+
+        <mat-card-content>
+          <p class="product-price">
+            {{ product.price | currency:'CLP':'symbol-narrow':'1.0-0' }}
+          </p>
+
+          <p
+            class="product-stock"
+            [class.low-stock]="product.stock <= 5"
+          >
+            <mat-icon>warehouse</mat-icon>
+
+            @if (product.stock <= 5) {
+              Últimas {{ product.stock }} unidades
+            } @else {
+              {{ product.stock }} unidades disponibles
+            }
+          </p>
+        </mat-card-content>
+
+        <mat-card-actions>
+          <button
+            mat-flat-button
+            type="button"
+            (click)="addToCart(product)"
+          >
+            <mat-icon>add_shopping_cart</mat-icon>
+            Agregar al pedido
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <div class="empty-state">
+        <mat-icon>search_off</mat-icon>
+        <h2>No se encontraron productos</h2>
+        <p>Prueba utilizando otro término de búsqueda.</p>
+      </div>
+    }
+  </div>
+</section>

@@ -229,7 +229,9 @@ http://localhost:4200
 
 Los archivos generados quedarán almacenados en la carpeta:
 
+```bash
 dist/
+```
 
 ## Pruebas unitarias
 
@@ -252,12 +254,9 @@ El trabajo se realizó mediante ramas de desarrollo y posteriormente se integró
 
 > [!NOTE]
 > Proyecto desarrollado para la asignatura:
-
-ASY4231 – Arquitectura de Software
-
-Duoc UC
+> ASY4231 – Arquitectura de Software
+> Duoc UC
 
 > [!IMPORTANT]
 > Este proyecto corresponde a un prototipo académico.
-
-No debe utilizarse para almacenar información sensible ni para procesar pagos reales.
+> No debe utilizarse para almacenar información sensible ni para procesar pagos reales.

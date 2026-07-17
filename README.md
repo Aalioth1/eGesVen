@@ -127,6 +127,7 @@ src/app/
 │   ├── product.ts
 │   └── cart.ts
 └── app.routes.ts
+```
 
 ## Capa de presentación
 
@@ -143,9 +144,9 @@ navegar entre las distintas vistas.
 
 Está representada por los servicios de Angular.
 
-ProductService administra las operaciones relacionadas con productos e inventario.
+`ProductService` administra las operaciones relacionadas con productos e inventario.
 
-CartService administra los productos agregados al pedido, las cantidades y los cálculos del carrito.
+`CartService` administra los productos agregados al pedido.
 
 ## Capa de datos
 
@@ -164,10 +165,10 @@ La lógica de productos y carrito se separó de los componentes mediante servici
 
 Esto permite:
 
-reutilizar la lógica;
-reducir el acoplamiento;
-facilitar las pruebas;
-mejorar la mantenibilidad.
+- reutilizar la lógica;
+- reducir el acoplamiento;
+- facilitar las pruebas;
+- mejorar la mantenibilidad.
 
 ## Uso de modelos
 
@@ -187,34 +188,44 @@ Se utilizó Angular Material para mantener consistencia visual, accesibilidad y 
 
 Antes de ejecutar el proyecto, es necesario contar con:
 
-Node.js
-npm
-Angular CLI
-Git
+- Node.js
+- npm
+- Angular CLI
+- Git
 
 ## Instalación
 
 Clonar el repositorio:
 
+```bash
 git clone https://github.com/Aalioth1/eGesVen.git
+```
 
 Ingresar a la carpeta del proyecto:
 
-cd EGESVEN
+```bash
+cd eGesVen
+```
 
 Instalar las dependencias:
 
+```bash
 npm install
+```
 
 ## Ejecución
 
 Ejecutar el servidor de desarrollo:
 
+```bash
 ng serve
+```
 
 Abrir en el navegador:
 
+```bash
 http://localhost:4200
+```
 
 Los archivos generados quedarán almacenados en la carpeta:
 
@@ -233,21 +244,20 @@ El proyecto utiliza Git y GitHub para el control de versiones.
 El trabajo se realizó mediante ramas de desarrollo y posteriormente se integró a la rama principal mediante Pull Request.
 
 ## Integrantes
-Moisés Martínez
-Sofía Perez
-Ferdynando Melo 
+- Moisés Martínez
+- Sofía Perez
+- Ferdynando Melo 
 
 ## Contexto académico
 
-.[!NOTE].
-## Proyecto desarrollado para la asignatura:
+> [!NOTE]
+> Proyecto desarrollado para la asignatura:
 
 ASY4231 – Arquitectura de Software
 
 Duoc UC
 
-.[!IMPORTANT].
-
-Este proyecto corresponde a un prototipo académico.
+> [!IMPORTANT]
+> Este proyecto corresponde a un prototipo académico.
 
 No debe utilizarse para almacenar información sensible ni para procesar pagos reales.

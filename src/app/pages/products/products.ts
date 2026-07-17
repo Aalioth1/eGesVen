@@ -130,4 +130,18 @@ export class Products implements OnInit {
       this.filterProducts();
     });
   }
+
+  resetProducts(): void {
+    const confirmed = window.confirm(
+      '¿Deseas restaurar los productos de ejemplo?',
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.productService.resetProducts();
+    this.searchTerm = '';
+    this.loadProducts();
+  }
 }

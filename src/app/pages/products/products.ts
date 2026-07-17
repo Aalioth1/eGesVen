@@ -11,10 +11,13 @@ import { MatTableModule } from '@angular/material/table';
 import { Product } from '../../models/product';
 import { ProductService } from '../../services/product';
 import { CurrencyPipe } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ProductForm } from '../../components/product-form/product-form';
 
 @Component({
   selector: 'app-products',
   imports: [
+    MatDialogModule,
     CurrencyPipe,
     FormsModule,
     MatButtonModule,
@@ -41,7 +44,9 @@ export class Products implements OnInit {
     'actions',
   ];
 
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService,
+  private dialog: MatDialog,
+  ) {}
 
   ngOnInit(): void {
     this.loadProducts();
@@ -68,7 +73,23 @@ export class Products implements OnInit {
   }
 
   editProduct(product: Product): void {
-    console.log('Editar producto:', product);
+    const dialogRef = this.dialog.open(ProductForm, {
+      width: '560px',
+      maxWidth: '95vw',
+      data: {
+        product,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: Product | undefined) => {
+      if (!result) {
+        return;
+      }
+
+      this.productService.updateProduct(result);
+      this.loadProducts();
+      this.filterProducts();
+    });
   }
 
   deleteProduct(product: Product): void {
@@ -83,5 +104,30 @@ export class Products implements OnInit {
     this.productService.deleteProduct(product.id);
     this.loadProducts();
     this.filterProducts();
+  }
+
+  openNewProductDialog(): void {
+  const dialogRef = this.dialog.open(ProductForm, {
+    width: '560px',
+    maxWidth: '95vw',
+  });
+
+  dialogRef.afterClosed().subscribe((result: Product | undefined) => {
+      if (!result) {
+        return;
+      }
+
+      const newProduct: Omit<Product, 'id'> = {
+        code: result.code,
+        name: result.name,
+        category: result.category,
+        price: result.price,
+        stock: result.stock,
+      };
+
+      this.productService.addProduct(newProduct);
+      this.loadProducts();
+      this.filterProducts();
+    });
   }
 }

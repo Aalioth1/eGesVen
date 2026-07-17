@@ -28,11 +28,15 @@ export class Login {
 
   login(): void {
     if (!this.email.trim() || !this.password.trim()) {
-      this.errorMessage = 'Debes ingresar correo y contraseña.';
+      this.errorMessage = 'Debes ingresar usuario y contraseña.';
       return;
     }
 
-    this.errorMessage = '';
-    this.router.navigate(['/dashboard']);
+    if (this.email === 'admin' && this.password === 'admin') {
+      this.errorMessage = '';
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.errorMessage = 'Usuario o contraseña incorrectos.';
+    }
   }
 }
